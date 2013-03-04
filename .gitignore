@@ -18,3 +18,4 @@
 doc/
 *.swp
 *~
+/app/config/database.yml
