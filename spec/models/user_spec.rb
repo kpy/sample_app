@@ -1,14 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-
 require 'spec_helper'
 
 describe User do
@@ -28,6 +17,7 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:appointments) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -137,4 +127,5 @@ describe User do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
   end
+
 end

@@ -21,9 +21,9 @@ describe "Authentication" do
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
 
       describe "after visiting another page" do
-		before { click_link "Home" }
-		it { should_not have_selector('div.alert.alert-error') }
-	  end
+    		before { click_link "Home" }
+    		it { should_not have_selector('div.alert.alert-error') }
+	    end
     end
 
     describe "with valid information" do
@@ -50,6 +50,10 @@ describe "Authentication" do
 
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
+      it { should_not have_link('Users',    href: users_path) }
+      it { should_not have_link('Profile',  href: user_path(user)) }
+      it { should_not have_link('Settings', href: edit_user_path(user)) }
+      it { should_not have_link('Sign out', href: signout_path) }
 
       describe "when attempting to visit a protected page" do
         before do
