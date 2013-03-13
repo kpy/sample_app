@@ -9,4 +9,13 @@ FactoryGirl.define do
       admin true
     end
   end
+
+  factory :appointment do    
+  	starttime { 1.hour.ago }
+    endtime { Time.now }
+  	sequence(:title)  { |n| "Title #{n}" }
+  	sequence(:description)  { |n| "Description #{n}" }
+  	sequence(:place)  { |n| "Place #{n}" }
+    user
+  end
 end

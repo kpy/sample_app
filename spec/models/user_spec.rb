@@ -128,4 +128,27 @@ describe User do
     its(:remember_token) { should_not be_blank }
   end
 
+  describe "appointment associations" do
+
+    before { @user.save }
+    let!(:older_appointment) do 
+      FactoryGirl.create(:appointment, owner_id: @user.id, starttime: 3.days.ago, endtime: 2.days.ago)
+    end
+    let!(:newer_appointment) do
+      FactoryGirl.create(:appointment, owner_id: @user.id, starttime: 2.days.ago, endtime: 1.day.ago)
+    end
+
+    it "should have the right appointments in the right order" do
+      @user.appointments.should == [newer_appointment, older_appointment]
+    end
+
+    it "should destroy associated appointments" do
+      appointments = @user.appointments.dup
+      @user.destroy
+      appointments.should_not be_empty
+      appointments.each do |appointment|
+        Appointment.find_by_id(appointment.id).should be_nil
+      end
+    end
+  end
 end

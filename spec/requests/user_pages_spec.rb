@@ -59,10 +59,19 @@ describe "User pages" do
 
   describe "profile page" do
   	let(:user) { FactoryGirl.create(:user) }
+    let!(:a1) { FactoryGirl.create(:appointment, owner_id: user.id, starttime: 2.days.ago, endtime: 1.day.ago, title: "foo") }
+    let!(:a2) { FactoryGirl.create(:appointment, owner_id: user.id, starttime: 1.days.ago, endtime: 22.hours.ago, title: "bar") }
+
   	before { visit user_path(user) }
 
   	it { should have_selector('h1',    text: user.name) }
   	it { should have_selector('title', text: user.name) }
+
+    describe "appointments" do
+      it { should have_content(a1.title) }
+      it { should have_content(a2.title) }
+      it { should have_content(user.appointments.count) }
+    end
   end
 
   describe "signup" do

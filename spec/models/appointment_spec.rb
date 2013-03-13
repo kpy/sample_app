@@ -2,12 +2,11 @@ require 'spec_helper'
 
 describe Appointment do
   let(:user) { FactoryGirl.create(:user) }
-  before { @appointment = user.appointments.build(starttime: 2.hour.ago,
+  before { @appointment = user.appointments.build(starttime: 2.hours.ago,
   								   endtime: 1.hour.ago,
   								   title: "Test appointment",
   								   description: "Just a Test",
-  								   place: "Somewhere",
-  								   ispublic: false) 
+  								   place: "Somewhere") 
   }
 
   subject { @appointment }
@@ -20,7 +19,6 @@ describe Appointment do
   it { should respond_to(:owner_id) }
   it { should respond_to(:ispublic) }
   it { should respond_to(:user) }
-  its(:user) { should == user }
 
   it { should be_valid }
 
@@ -35,5 +33,43 @@ describe Appointment do
   describe "when owner_id is not present" do
   	before { @appointment.owner_id = nil }
   	it { should_not be_valid }
+  end
+
+  describe "when starttime is not present" do
+  	before { @appointment.starttime = nil }
+  	it { should_not be_valid }
+  end
+
+  describe "when endtime is not present" do
+  	before { @appointment.endtime = nil }
+  	it { should_not be_valid }
+  end
+
+  describe "valid starttime and endtime" do
+  	it "should not allow starttime after endtime" do
+  	  aptmnt = FactoryGirl.create(:appointment, owner_id: user.id, starttime: 1.day.ago, endtime: 2.days.ago)
+  	  !aptmnt.valid?
+  	  aptmnt.errors[:endtime]
+  	end
+  end
+
+  describe "with blank title" do
+    before { @appointment.title = " " }
+    it { should_not be_valid }
+  end
+
+  describe "with title that is too long" do
+    before { @appointment.title = "a" * 141 }
+    it { should_not be_valid }
+  end
+
+  describe "with description that is too long" do
+    before { @appointment.description = "a" * 501 }
+    it { should_not be_valid }
+  end
+
+  describe "with place that is too long" do
+    before { @appointment.place = "a" * 251 }
+    it { should_not be_valid }
   end
 end

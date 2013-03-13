@@ -1,0 +1,31 @@
+<% provide(:title, "Edit appointment") %> 
+<h1>Update your appointment</h1>
+
+<%= form_for(@appointment) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="picker">
+  <%= f.label :starttime %>
+  <%= f.datetime_select :starttime, 
+                       { :default => 24.hours.from_now, 
+                       :minute_step => 5} %>
+  </div>
+  <div class="picker">
+  <%= f.label :endtime %>
+  <%= f.datetime_select :endtime, 
+                       { :default => 24.hours.from_now, 
+                       :minute_step => 5} %>
+  </div>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :place %>
+  <%= f.text_field :place %>
+  <div class="field">
+    <%= f.text_area :description, placeholder: "Write description..." %>
+  </div>
+  <p>
+    <%= f.label :ispublic, "Is Public" %>
+    <%= f.check_box :ispublic %>
+  </p>
+  <%= f.submit "Update", class: "btn btn-large btn-primary" %>
+<% end %>

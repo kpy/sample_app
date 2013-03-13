@@ -15,5 +15,16 @@ namespace :db do
                    password: password,
                    password_confirmation: password)
     end
+    users = User.all(limit: 6)
+    time_start = 2.weeks.ago
+    10.times do |n|
+      starttime = time_start + n.days + n.hours
+      endtime = starttime + 1.hour
+      title = Faker::Lorem.sentence(1)
+      description = Faker::Lorem.sentence(3)
+      place = Faker::Lorem.sentence(1)
+      users.each { |user| user.appointments.create!(starttime: starttime,
+          endtime: endtime, title: title, description: description, place: place) }
+    end
   end
 end

@@ -1,6 +1,15 @@
+<% if appointment.ispublic || check_user?(appointment.owner_id) %>
 <li>
-	<span class="timestamp"><%= appointment.starttime %> - <%= appointment.endtime %></span>
-	<span class="content"><%= appointment.title %></span>
-	<span class="content"><%= appointment.description %></span>
-	<span class="content"><%= appointment.place %></span>
+	<span class="timestamp">Starttime: <%= appointment.starttime %></span>
+	<span class="timestamp">Endtime: <%= appointment.endtime %></span>
+	<span class="place">Place: <%= appointment.place %></span>
+	<span class="title">Title: <%= appointment.title %></span>
+	<span class="description">Description: <%= appointment.description %></span>
+	<% if check_user?(appointment.owner_id) %> 
+	    <%= link_to "edit", edit_appointment_path(appointment) %>
+        <%= link_to "delete", appointment, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: appointment.title %>
+    <% end %>
 </li>
+<% end %>

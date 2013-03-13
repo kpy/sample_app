@@ -7,7 +7,6 @@ class CreateAppointments < ActiveRecord::Migration
       t.string :place
       t.string :description
       t.integer :owner_id
-      t.boolean :ispublic, default: false
       
       t.timestamps
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312175937) do
+ActiveRecord::Schema.define(:version => 20130312200815) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "starttime"
@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(:version => 20130312175937) do
     t.string   "place"
     t.string   "description"
     t.integer  "owner_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.boolean  "ispublic",    :default => false
   end
 
   create_table "users", :force => true do |t|

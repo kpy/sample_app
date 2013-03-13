@@ -46,6 +46,7 @@ describe "Authentication" do
     end
   end
 
+
   describe "authorization" do
 
     describe "for non-signed-in users" do
@@ -71,6 +72,7 @@ describe "Authentication" do
         end
       end
 
+
       describe "in the Users controller" do
 
         describe "visiting the edit page" do
@@ -88,7 +90,22 @@ describe "Authentication" do
           it { should have_selector('title', text: 'Sign in') }
         end
       end
+
+
+      describe "in the Appointments controller" do
+
+        describe "submitting to the create action" do
+          before { post appointments_path }
+          specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete appointment_path(FactoryGirl.create(:appointment, owner_id: user.id)) }
+          specify { response.should redirect_to(signin_path) }
+        end
+      end
     end
+
 
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
